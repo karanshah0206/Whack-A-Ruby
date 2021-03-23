@@ -15,6 +15,9 @@ class GameWindow < Gosu::Window
         @hammer = Gosu::Image.new("./media/hammer.png")
         # Click Event Variable
         @hit = 0
+        # Score
+        @font = Gosu::Font.new(self, "Comic Sans MS", 30)
+        @score = 0
     end
 
     def update
@@ -36,12 +39,14 @@ class GameWindow < Gosu::Window
     end
 
     def button_down(id)
-        # Click Event Functionality
+        # Click Event Functionality + Scoring
         if (id == Gosu::MsLeft)
             if (Gosu.distance(mouse_x, mouse_y, @ruby_x, @ruby_y) < 50) and (@ruby_visible >= 0)
                 @hit = 1
+                @score += 5
             else
                 @hit = -1
+                @score -= 1
             end
         end
     end
@@ -64,6 +69,8 @@ class GameWindow < Gosu::Window
         end
         # Reset Hit Status
         @hit = 0
+        # Display Points
+        @font.draw_text("Score: #{@score.to_s}", 700, 20, 3)
     end
 end
 
