@@ -18,6 +18,8 @@ class GameWindow < Gosu::Window
         # Score
         @font = Gosu::Font.new(self, "Comic Sans MS", 30)
         @score = 0
+        # Restart
+        @start_time = 0
     end
 
     def update
@@ -37,7 +39,7 @@ class GameWindow < Gosu::Window
             @ruby_visible = 30
         end
         # Timing
-        @time_left = (60 - (Gosu.milliseconds/1000))
+        @time_left = (60 - (Gosu.milliseconds/1000 - @start_time))
         if (@time_left < 0)
             @ruby_vx = 0
             @ruby_vy = 0
@@ -55,6 +57,17 @@ class GameWindow < Gosu::Window
                 @hit = -1
                 @score -= 1
             end
+        end
+        # Game Restart
+        if (id == Gosu::KbSpace) and (@time_left < 0)
+            @ruby_x = 25
+            @ruby_y = 25
+            @ruby_vx = 5
+            @ruby_vy = 5
+            @ruby_visible = 0
+            @score = 0
+            @hit = 0
+            @start_time = Gosu.milliseconds/1000
         end
     end
 
@@ -81,7 +94,9 @@ class GameWindow < Gosu::Window
         if (@time_left >= 0)
             @font.draw_text("Time: #{@time_left.to_s}", 20, 20, 3)
         else
+            # Game Over
             @font.draw_text("Time's Up!", 20, 20, 3)
+            @font.draw_text("Press Space Bar To Play Again!", 250, 285, 3)
         end
     end
 end
