@@ -36,11 +36,18 @@ class GameWindow < Gosu::Window
         if (@ruby_visible < -10) and (rand < 0.01)
             @ruby_visible = 30
         end
+        # Timing
+        @time_left = (60 - (Gosu.milliseconds/1000))
+        if (@time_left < 0)
+            @ruby_vx = 0
+            @ruby_vy = 0
+            @ruby_visible = 1
+        end
     end
 
     def button_down(id)
         # Click Event Functionality + Scoring
-        if (id == Gosu::MsLeft)
+        if (id == Gosu::MsLeft) and (@time_left >= 0)
             if (Gosu.distance(mouse_x, mouse_y, @ruby_x, @ruby_y) < 50) and (@ruby_visible >= 0)
                 @hit = 1
                 @score += 5
@@ -70,7 +77,12 @@ class GameWindow < Gosu::Window
         # Reset Hit Status
         @hit = 0
         # Display Points
-        @font.draw_text("Score: #{@score.to_s}", 700, 20, 3)
+        @font.draw_text("Score: #{@score.to_s}", 650, 20, 3)
+        if (@time_left >= 0)
+            @font.draw_text("Time: #{@time_left.to_s}", 20, 20, 3)
+        else
+            @font.draw_text("Time's Up!", 20, 20, 3)
+        end
     end
 end
 
