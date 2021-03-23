@@ -11,6 +11,8 @@ class GameWindow < Gosu::Window
         @ruby_vx = 5
         @ruby_vy = 5
         @ruby_visible = 0
+        # Hammer Image Configuration
+        @hammer = Gosu::Image.new("./media/hammer.png")
     end
 
     def update
@@ -35,6 +37,7 @@ class GameWindow < Gosu::Window
         if (@ruby_visible > 0)
             @ruby.draw(@ruby_x - 25, @ruby_y - 25, z=1, 0.0625, 0.0625)
         end
+        @hammer.draw(mouse_x - 25, mouse_y - 25, z=2, 0.0625, 0.0625)
     end
 end
 
