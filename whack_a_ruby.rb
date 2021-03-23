@@ -10,6 +10,7 @@ class GameWindow < Gosu::Window
         @ruby_y = 25
         @ruby_vx = 5
         @ruby_vy = 5
+        @ruby_visible = 0
     end
 
     def update
@@ -22,10 +23,18 @@ class GameWindow < Gosu::Window
         if (@ruby_y -25 <= 0) or (@ruby_y + 25 >= 600)
             @ruby_vy *= -1
         end
+        # Ruby Random Visibility
+        # Ruby Visible for 30 Frames, Invisible for at least 10 Frames
+        @ruby_visible -= 1
+        if (@ruby_visible < -10) and (rand < 0.01)
+            @ruby_visible = 30
+        end
     end
 
     def draw
-        @ruby.draw(@ruby_x - 25, @ruby_y - 25, z=1, 0.0625, 0.0625)
+        if (@ruby_visible > 0)
+            @ruby.draw(@ruby_x - 25, @ruby_y - 25, z=1, 0.0625, 0.0625)
+        end
     end
 end
 
