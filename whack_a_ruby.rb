@@ -70,6 +70,10 @@ class GameWindow < Gosu::Window
             @start_time = Gosu.milliseconds/1000
         end
     end
+    
+    def needs_cursor?
+        false
+    end
 
     def draw
         # Draw Ruby If Visible
